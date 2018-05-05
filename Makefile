@@ -7,8 +7,11 @@ SC = scalac
 all: build run clean
 
 help:
+	@echo "make all           - build run clean"
 	@echo "make build         - Create .class objects"
 	@echo "make clean         - Delete .class objects"
+	@echo "make run           - Run compiled objects"
+	@echo "make help          - Print this message"
 
 build: $(SOURCES:.scala=.class)
 
