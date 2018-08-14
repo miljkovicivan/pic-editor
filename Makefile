@@ -4,7 +4,7 @@ S = scala
 SC = scalac
 
 # default target is to show help
-all: build run clean
+all: clean build run
 
 help:
 	@echo "make all           - build run clean"
