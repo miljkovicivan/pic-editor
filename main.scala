@@ -1,9 +1,8 @@
-import file_reader.ispisi
+import test_drawing.draw
 
 object Main {
 
   def main(args: Array[String]): Unit = {
-    val file_name = "test.png"
-    ispisi(file_name)
+    draw()
   }
 }

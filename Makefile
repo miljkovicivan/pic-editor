@@ -1,5 +1,5 @@
 SRC = .
-SOURCES = $(shell ls $(SRC)/*.scala)
+SOURCES = file_reader.scala test_drawing.scala main.scala
 S = scala
 SC = scalac
 
