@@ -22,6 +22,29 @@ object Main {
     }
   }
 
+  def print_selection_menu(): Unit = {
+    println("===  Selections ===")
+    println("1. Create selection")
+    println("2. List selections")
+    println("3. Activate selection")
+    println("4. Deactivate selection")
+    println("5. Fill selection with color")
+    println("6. Delete selection")
+    println("0. Go to main menu")
+    print(">> ")
+    val choice: String = scala.io.StdIn.readLine
+    choice match {
+      case "1" => Image.create_selection()
+      case "2" => Image.list_selections()
+      case "3" => Image.activate_selection()
+      case "4" => Image.deactivate_selection()
+      case "5" => Image.fill_selection_with_color()
+      case "6" => Image.delete_selection()
+      case _ =>
+    }
+    print_main_menu()
+  }
+
   def print_operations_menu(): Unit = {
     println("===  Operations  ===")
     println("1. current_value + X")
@@ -74,7 +97,7 @@ object Main {
           case "1" => load_file()
           case "2" => ensure_file_is_loaded(save_file)
           case "3" => println(3)
-          case "4" => println(4)
+          case "4" => ensure_file_is_loaded(print_selection_menu)
           case "5" => ensure_file_is_loaded(print_operations_menu)
           case "0" => break
           case _ => println("Not valid")

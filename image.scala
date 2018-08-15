@@ -2,7 +2,10 @@ import javax.imageio.ImageIO
 import javax.imageio.IIOException
 import java.io.File
 import java.awt.image.BufferedImage
+import java.util.NoSuchElementException
 import scala.math._
+import scala.collection.mutable.HashMap
+
 
 import constants._
 import utils._
@@ -31,11 +34,55 @@ object image {
     }
   }
 
+  class Selection(name: String, x1: Int, y1: Int, x2: Int, y2: Int) {
+    val _x1 = x1
+    val _x2 = x2
+    val _y1 = y1
+    val _y2 = y2
+    val _name = name
+    var _active: Boolean = true
+
+    def is_selected(x: Int, y: Int): Boolean = {
+      val x_ok = x >= _x1 && x <= x2
+      val y_ok = y >= _y1 && y <= y2
+      if (x_ok && y_ok) {
+        true
+      } else {
+        false
+      }
+    }
+
+    def is_active(): Boolean = {
+      _active
+    }
+
+    def activate() = {
+      _active = true
+    }
+
+    def deactivate() = {
+      _active = false
+    }
+
+    override def toString(): String = {
+      var active = ""
+      if (_active) {
+        active = "active"
+      } else {
+        active = "not active"
+      }
+      s"${_name} (${active})"
+    }
+
+  }
+
 
   class Image(path: String, pic: BufferedImage) {
 
     val _path: String = path
     val _pic: BufferedImage = pic
+
+    val _selections: HashMap[String, Selection] = HashMap()
 
     def save(name: String): Unit = {
       val _name = get_name(name)
@@ -50,7 +97,16 @@ object image {
     }
 
     def is_selected(x: Int, y: Int): Boolean = {
-      true
+      var selected: Boolean = false
+      if (_selections.count((_) => true) == 0) {
+        true
+      } else {
+        _selections.values.foreach((selection) =>
+          if (selection.is_selected(x,y) && selection.is_active()) {
+            selected = true
+        })
+        selected
+      }
     }
 
     def do_operation(offset: Double, operation: (Double, Double) => Double) = {
@@ -74,6 +130,8 @@ object image {
   object Image {
 
     var _instance: Image = null
+
+    // File management
 
     def load_file(): Unit = {
       try {
@@ -120,6 +178,8 @@ object image {
           println("File name is not valid")
       }
     }
+
+    // Operations
 
     def add(): Unit = {
       print("X = ")
@@ -189,6 +249,65 @@ object image {
       print("X = ")
       val input: Double = read_double()
       _instance.do_operation(input, max)
+    }
+
+    // Selections
+
+    def _validate_selection(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = {
+      var ret = true
+      if (x1 < 0 || y1 < 0 || x2 > _instance._pic.getWidth || y2 > _instance._pic.getHeight) {
+        ret = false
+      }
+      ret
+    }
+
+    def create_selection() = {
+      print("Name: ")
+      val name = scala.io.StdIn.readLine
+      print("Upper left X: ")
+      val x1 = read_int()
+      print("Upper left Y: ")
+      val y1 = read_int()
+      print("Down right X: ")
+      val x2 = read_int()
+      print("Down right Y: ")
+      val y2 = read_int()
+
+      val validate_s = _validate_selection(x1, y1, x2, y2)
+      if (validate_s) {
+        val selection = new Selection(name=name, x1=x1, y1=y1, x2=x2, y2=y2)
+        _instance._selections(name) = selection
+      } else {
+        println(s"Your selection is out of image. Image size: ${_instance._pic.getWidth}x${_instance._pic.getHeight}")
+      }
+    }
+
+    def list_selections() {
+      _instance._selections.values.foreach(println)
+    }
+
+    def activate_selection() {
+      // TODO make getting selection safe NoSuchElementException
+      print("Name: ")
+      val name = scala.io.StdIn.readLine
+      _instance._selections(name).activate()
+    }
+
+    def deactivate_selection() {
+      // TODO make getting selection safe NoSuchElementException
+      print("Name: ")
+      val name = scala.io.StdIn.readLine
+      _instance._selections(name).deactivate()
+    }
+
+    def fill_selection_with_color() {
+    }
+
+    def delete_selection() {
+      // TODO make getting selection safe NoSuchElementException
+      print("Name: ")
+      val name = scala.io.StdIn.readLine
+      _instance._selections.remove(name)
     }
 
   }
