@@ -1,17 +1,17 @@
 import scala.util.control.Breaks._
 
-import file_reader.ispisi
 import image.Image
 
 object Main {
 
-  def print_menu(): Unit = {
+  def print_main_menu(): Unit = {
+    println("===  Main menu  ===")
     println("1. Load file")
     println("2. Save file")
     println("3. Layers")
     println("4. Selections")
     println("5. Operations")
-    println("6. Quit")
+    println("0. Quit")
   }
 
   def ensure_file_is_loaded(func: => Unit): Unit = {
@@ -25,13 +25,34 @@ object Main {
   def print_operations_menu(): Unit = {
     println("===  Operations  ===")
     println("1. current_value + X")
-    println("2. Go to main menu")
+    println("2. current_value - X")
+    println("3. X - current_value")
+    println("4. current_value * X")
+    println("5. current_value / X")
+    println("6. X / current_value")
+    println("7. current_value ^ X")
+    println("8. log1p(current_value)")
+    println("9. abs(current_value)")
+    println("10. min(current_value, X)")
+    println("11. max(current_value, X)")
+    println("0. Go to main menu")
     print(">> ")
     val choice: String = scala.io.StdIn.readLine
     choice match {
       case "1" => Image.add()
+      case "2" => Image.sub()
+      case "3" => Image.sub_inverse()
+      case "4" => Image.mul()
+      case "5" => Image.div()
+      case "6" => Image.div_inverse()
+      case "7" => Image.power()
+      case "8" => Image.log_1p()
+      case "9" => Image.abs_f()
+      case "10" => Image.min_f()
+      case "11" => Image.max_f()
       case _ =>
     }
+    print_main_menu()
   }
 
   def load_file(): Unit = {
@@ -43,7 +64,7 @@ object Main {
   }
 
   def main(args: Array[String]): Unit = {
-    print_menu()
+    print_main_menu()
 
     breakable {
       while (true) {
@@ -55,7 +76,7 @@ object Main {
           case "3" => println(3)
           case "4" => println(4)
           case "5" => ensure_file_is_loaded(print_operations_menu)
-          case "6" => break
+          case "0" => break
           case _ => println("Not valid")
         }
       }

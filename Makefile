@@ -1,5 +1,5 @@
 SRC = .
-SOURCES = $(shell ls $(SRC)/*.scala)
+SOURCES = constants.scala utils.scala image.scala main.scala
 S = scala
 SC = scalac
 
