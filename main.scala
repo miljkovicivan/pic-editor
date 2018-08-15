@@ -13,15 +13,11 @@ object Main {
   }
 
   def load_file(): Unit = {
-    print("name: ")
-    val name: String = scala.io.StdIn.readLine
-    Image.load_file(path=name)
+    Image.load_file()
   }
 
   def save_file(): Unit = {
-    print("name: ")
-    val name: String = scala.io.StdIn.readLine
-    Image.save_file(name=name)
+    Image.save_file()
   }
 
   def main(args: Array[String]): Unit = {
@@ -29,6 +25,7 @@ object Main {
 
     breakable {
       while (true) {
+        print(">> ")
         val choice: String = scala.io.StdIn.readLine
         choice match {
           case "1" => load_file()
