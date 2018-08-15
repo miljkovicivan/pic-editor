@@ -69,22 +69,28 @@ object image {
       }
     }
 
-    def save_file(): Unit = {
-      if (_instance != null) {
-
-        print("name: ")
-        val name: String = scala.io.StdIn.readLine
-
-        val name_valid = validate_name(name)
-
-        if (name_valid) {
-          _instance.save(name=name)
-        } else {
-            println("File name is not valid")
-        }
+    def file_loaded(): Boolean = {
+      if (_instance == null) {
+        false
       } else {
-        println("File must be loaded first")
+        true
       }
+    }
+
+    def save_file(): Unit = {
+      print("name: ")
+      val name: String = scala.io.StdIn.readLine
+
+      val name_valid = validate_name(name)
+
+      if (name_valid) {
+        _instance.save(name=name)
+      } else {
+          println("File name is not valid")
+      }
+    }
+
+    def add(): Unit = {
     }
   }
 }
