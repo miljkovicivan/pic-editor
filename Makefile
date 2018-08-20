@@ -24,3 +24,6 @@ clean:
 
 run: 
 	$(S) Main
+
+shell:
+	$(S)
