@@ -30,6 +30,7 @@ object Main {
     println("4. Deactivate selection")
     println("5. Fill selection with color")
     println("6. Delete selection")
+    println("7. Fill color")
     println("0. Go to main menu")
     print(">> ")
     val choice: String = scala.io.StdIn.readLine
@@ -40,6 +41,7 @@ object Main {
       case "4" => Image.deactivate_selection()
       case "5" => Image.fill_selection_with_color()
       case "6" => Image.delete_selection()
+      case "7" => Image.fill_selection_with_color()
       case _ =>
     }
     print_main_menu()

@@ -2,10 +2,10 @@ import javax.imageio.ImageIO
 import javax.imageio.IIOException
 import java.io.File
 import java.awt.image.BufferedImage
+import java.awt.Color
 import java.util.NoSuchElementException
 import scala.math._
 import scala.collection.mutable.HashMap
-
 
 import constants._
 import utils._
@@ -94,6 +94,18 @@ object image {
     def get_selected_layer(): BufferedImage = {
       // TODO: NOT IMPLEMENTED
       _pic
+    }
+
+    def fill_selection(name: String, color: Color) = {
+      val s = _selections(name)
+      val g = _pic.createGraphics()
+      if (s.is_active()) {
+        g.setColor(color)
+        g.fillRect(s._x1, s._y1, s._x2 - s._x1, s._y2 - s._y1)
+        g.dispose()
+      } else {
+        println("Selection is not active")
+      }
     }
 
     def is_selected(x: Int, y: Int): Boolean = {
@@ -300,7 +312,58 @@ object image {
       _instance._selections(name).deactivate()
     }
 
+    def _choose_color(): Color = {
+      println("=== Choose color ===")
+      println("1.  Black")
+      println("2.  Blue")
+      println("3.  Cyan")
+      println("4.  Dark Gray")
+      println("5.  Gray")
+      println("6.  Green")
+      println("7.  Light Gray")
+      println("8.  Magenta")
+      println("9.  Orange")
+      println("10. Pink")
+      println("11. Red")
+      println("12. White")
+      println("13. Yellow")
+      println("14. Define your color")
+      val choice: String = scala.io.StdIn.readLine
+      choice match {
+        case "1" => Color.BLACK
+        case "2" => Color.BLUE
+        case "3" => Color.CYAN
+        case "4" => Color.DARK_GRAY
+        case "5" => Color.GRAY
+        case "6" => Color.GREEN
+        case "7" => Color.LIGHT_GRAY
+        case "8" => Color.MAGENTA
+        case "9" => Color.ORANGE
+        case "10" => Color.PINK
+        case "11" => Color.RED
+        case "12" => Color.WHITE
+        case "13" => Color.YELLOW
+        case "14" => _custom_color()
+        case _ => Color.BLACK
+      }
+    }
+
+    def _custom_color(): Color = {
+      print("Enter red component: ")
+      val red = scale_to_int(guarded(read_double()))
+      print("Enter green component: ")
+      val green = scale_to_int(guarded(read_double()))
+      print("Enter blue component: ")
+      val blue = scale_to_int(guarded(read_double()))
+      println(red + " " + green + " " + blue)
+      new Color(red, green, blue)
+    }
+
     def fill_selection_with_color() {
+      print("Name: ")
+      val name = scala.io.StdIn.readLine
+      val color = _choose_color()
+      _instance.fill_selection(name, color)
     }
 
     def delete_selection() {
