@@ -263,6 +263,14 @@ object image {
       _instance.do_operation(input, max)
     }
 
+    def inverse(): Unit = {
+      _instance.do_operation(1, (x, y) => y - x)
+    }
+
+    def gray_out(): Unit = {
+      println("Not implemented")
+    }
+
     // Selections
 
     def _validate_selection(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = {

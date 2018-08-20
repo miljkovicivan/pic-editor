@@ -60,6 +60,8 @@ object Main {
     println("9. abs(current_value)")
     println("10. min(current_value, X)")
     println("11. max(current_value, X)")
+    println("12. inverse")
+    println("13. gray out")
     println("0. Go to main menu")
     print(">> ")
     val choice: String = scala.io.StdIn.readLine
@@ -75,6 +77,8 @@ object Main {
       case "9" => Image.abs_f()
       case "10" => Image.min_f()
       case "11" => Image.max_f()
+      case "12" => Image.inverse()
+      case "13" => Image.gray_out()
       case _ =>
     }
     print_main_menu()
