@@ -1,6 +1,8 @@
 import scala.util.control.Breaks._
+import scala.collection.mutable.HashMap
 
 import image.Image
+import composite_operations.CO
 
 object Main {
 
@@ -62,6 +64,7 @@ object Main {
     println("11. max(current_value, X)")
     println("12. inverse")
     println("13. gray out")
+    println("14. Composite operations")
     println("0. Go to main menu")
     print(">> ")
     val choice: String = scala.io.StdIn.readLine
@@ -79,9 +82,27 @@ object Main {
       case "11" => Image.max_f()
       case "12" => Image.inverse()
       case "13" => Image.gray_out()
+      case "14" => _print_composite_operations_menu()
       case _ =>
     }
     print_main_menu()
+  }
+
+  def _print_composite_operations_menu(): Unit = {
+    println("=== Composite operations ===")
+    println("1. List composite operations")
+    println("2. Create composite operation")
+    println("3. Add operation")
+    println("4. Apply composite operation")
+    print(">>")
+    val choice: String = scala.io.StdIn.readLine
+    choice match {
+      case "1" => CO.list_composite_operations()
+      case "2" => CO.create_composite_operations()
+      case "3" => CO.add_operation()
+      case "4" => CO.apply_composite_operaition()
+      case _ =>
+    }
   }
 
   def load_file(): Unit = {

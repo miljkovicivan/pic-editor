@@ -1,5 +1,5 @@
 SRC = .
-SOURCES = constants.scala utils.scala image.scala main.scala
+SOURCES = constants.scala utils.scala composite_operations.scala image.scala main.scala
 S = scala
 SC = scalac
 
