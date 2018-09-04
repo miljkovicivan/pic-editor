@@ -15,6 +15,28 @@ object menus {
       println("0. Quit")
     }
 
+    def print_layers_menu(): Unit = {
+      println("===  Layers ===")
+      println("1. Create layer")
+      println("2. List layers")
+      println("3. Select active layer")
+      println("4. Deactivate layer")
+      println("5. Fill layer with color")
+      println("6. Delete layer")
+      println("0. Go to main menu")
+      val choice: String = scala.io.StdIn.readLine
+      choice match {
+        case "1" => Image.create_layer()
+        case "2" => Image.list_layers()
+        case "3" => Image.select_active_layer()
+        case "4" => Image.deactivate_layer()
+        case "5" => Image.fill_layer_with_color()
+        case "6" => Image.delete_layer()
+        case _ =>
+      }
+      print_main_menu()
+    }
+
     def print_selection_menu(): Unit = {
       println("===  Selections ===")
       println("1. Create selection")

@@ -83,6 +83,7 @@ object image {
     val _pic: BufferedImage = pic
 
     val _selections: HashMap[String, Selection] = HashMap()
+    val _layers: HashMap[String, BufferedImage] = HashMap()
 
     def save(name: String): Unit = {
       val _name = get_name(name)
@@ -91,9 +92,20 @@ object image {
       println("saved")
     }
 
-    def get_selected_layer(): BufferedImage = {
-      // TODO: NOT IMPLEMENTED
-      _pic
+    def get_active_layer(): BufferedImage = {
+      var active_layer: BufferedImage = null
+
+      for(layer <- _layers.values.reverse) {
+        if (layer.is_active) {
+          active_layer = layer
+        }
+      }
+
+      if (active_layer == null) {
+        active_layer = _pic
+      }
+
+      active_layer
     }
 
     def fill_selection(name: String, color: Color) = {
@@ -122,7 +134,8 @@ object image {
     }
 
     def do_operation(offset: Double, operation: (Double, Double) => Double) = {
-      val layer = get_selected_layer()
+      val layer = get_active_layer()
+      println(layer.name)
       val w = _pic.getWidth
       val h = _pic.getHeight
       for (x <- 0 until w)
@@ -379,6 +392,54 @@ object image {
       print("Name: ")
       val name = scala.io.StdIn.readLine
       _instance._selections.remove(name)
+    }
+
+    // Layers
+
+    class Layer(name: String) {
+      val _layer: BufferedImage = new BufferedImage(_instance._pic.getWidth, _instance._pic.getHeight, BufferedImage.TYPE_INT_RGB)
+      val _name = name
+      var _active: Boolean = true
+
+      def is_active(): Boolean = {
+        _active
+      }
+
+      def activate() = {
+        _active = true
+      }
+
+      def deactivate() = {
+        _active = false
+      }
+
+      override def toString(): String = {
+        var active = ""
+        if (_active) {
+          active = "active"
+        } else {
+          active = "not active"
+        }
+        s"${_name} (${active})"
+      }
+    }
+
+    def create_layer(): Unit = {
+    }
+
+    def list_layers(): Unit = {
+    }
+
+    def select_active_layer(): Unit = {
+    }
+
+    def deactivate_layer(): Unit = {
+    }
+
+    def fill_layer_with_color(): Unit = {
+    }
+
+    def delete_layer(): Unit = {
     }
 
   }
